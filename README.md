@@ -16,10 +16,13 @@ Requirement
 Usage
 ----------------------------
 
-###Training
+### Training
 
-Download the data to the ./data/ folder then run the script train.py
+Download the data to the ./data/ folder. The [pretrained weight of SRResNet](https://drive.google.com/file/d/126GzYaRBprQYju1g0WGVF_5UvbMIYkh3/view?usp=sharing) is optional
+Run the script train.py
 ```
+$ python train.py --trainset_dir $TRAINDIR --validset_dir $VALIDDIR --upscale_factor 4 --pretrain SRResNet_weight.pth --cuda
+
 usage: train.py [-h] [--trainset_dir TRAINSET_DIR]
                 [--validset_dir VALIDSET_DIR] [--upscale_factor {2,4,8}]
                 [--epochs EPOCHS] [--resume RESUME]
@@ -42,9 +45,14 @@ optional arguments:
   --cuda                Using GPU to train
 ```
 
-###Testing
+### Testing
+
+Download the [SRGAN weight](https://drive.google.com/file/d/1NIoOCFwMH-D3uSHgeoptsJ8OPoMkf_UN/view?usp=sharing) that was trained with DIV2K dataset.
+
+Run the script test_image.py
+
 ```
-$ python test_image.py --image $IMG --upscale_factor
+$ python test_image.py --image $IMG --weight $WEIGHT --cuda
 
 usage: test_image.py [-h] [--image IMAGE] [--upscale_factor {2,4,8}]
                      [--weight WEIGHT] [--downsample {None,bicubic}] [--cuda]
@@ -60,12 +68,14 @@ optional arguments:
   --cuda                Using GPU to run
 ```
 
-###Crop image
+### Crop image
 
-To visualize and compare the detail in the image, this script to save multiple patches from input image with colored bounding box. The cropped images will be saved in the same directory as input image. When the saved coordinates is not specified, the program will prompt image for used to select bounding box from image. 
+To visualize and compare the detail in the image, this script to save multiple patches from input image with colored bounding box. The cropped images will be saved in the same directory as input image. When the saved coordinates is not specified, the program will prompt image for used to select bounding box from image. Then the coordinates will be saved to crop other images.
 
 
 ```
+$ python get_img_crop.py --image $IMG
+
 usage: get_img_crop.py [-h] [--image IMAGE] [--coords COORDS]
 
 optional arguments:
@@ -77,7 +87,7 @@ optional arguments:
 
 Sample Results
 ----------------------------
-###Sample from DIV2K validation set  
+### Sample from DIV2K validation set  
 
 #### Bicubic
 ![sample1_lr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/sample1_lr.png "Bicubic")   
@@ -101,7 +111,7 @@ Sample Results
 ![sample3_sr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/sample3_sr.png "SRGAN")   
 
 
-###Test image   
+### Test image   
 
 #### Low Res
 ![nya_lr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/sample3_lr.png "Low Resolution")   
