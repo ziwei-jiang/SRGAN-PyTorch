@@ -6,7 +6,6 @@ from torch.utils.data import Dataset
 import torchvision.transforms as transforms 
 from torchvision.models import vgg19
 import numpy as np
-from torch.utils.data import DataLoader
 
 class TV_Loss(nn.Module):
 	def __init__(self):

@@ -29,8 +29,7 @@ if __name__ == '__main__':
 	with torch.no_grad():
 		generator_net = Generator(upscale_factor = upscale_factor, num_blocks=16).eval()
 		
-		# saved_state = torch.load(weight)
-		# saved_G_weight = saved_state['generator']
+
 		saved_G_weight = torch.load(weight) 
 		generator_net.load_state_dict(saved_G_weight)
 

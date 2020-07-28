@@ -31,7 +31,7 @@ if __name__ == '__main__':
 	weights_dir = './results/weights'
 	os.makedirs(check_points_dir, exist_ok=True)
 	os.makedirs(weights_dir, exist_ok=True)
-	
+
 	train_set = DIV2K_train_set(opt.trainset_dir, upscale_factor=4, crop_size = 128)
 	valid_set = DIV2K_valid_set(opt.validset_dir, upscale_factor=4)
 	trainloader = DataLoader(dataset=train_set, num_workers=4, batch_size=32, shuffle=True)
@@ -76,6 +76,8 @@ if __name__ == '__main__':
 		# generator_net.load_state_dict(saved_G_state['generator'])
 		generator_net.load_state_dict(saved_G_state)
 
+
+	## Pre-train the generator
 	if opt.mode == 'generator':
 		for epoch in range(1+opt.resume, opt.epochs+1):
 			print("epoch: %i/%i" % (int(epoch), int(opt.epochs)))
@@ -145,7 +147,7 @@ if __name__ == '__main__':
 
 
 
-
+	## Adversarial training
 
 	if opt.mode == 'adversarial':
 		discriminator_running_loss = 0.0

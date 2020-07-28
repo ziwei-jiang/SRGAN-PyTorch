@@ -58,7 +58,7 @@ class Generator(nn.Module):
 		out = self.upblocks(out)
 		out = self.conv3(out)
 		return torch.tanh(out)
-		# return out
+
 
 
 
