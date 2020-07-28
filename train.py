@@ -116,7 +116,7 @@ if __name__ == '__main__':
 			generator_losses.append((epoch,generator_running_loss/len(train_set)))
 	
 
-			if epoch % 100 ==0:
+			if epoch % 500 ==0:
 				check_point = {'generator': generator_net.state_dict(), 'generator_optimizer': generator_optimizer.state_dict(),
 								'generator_losses': generator_losses ,'PSNR_valid': PSNR_valid}
 				with torch.no_grad():
@@ -211,7 +211,7 @@ if __name__ == '__main__':
 
 	
  
-			if epoch % 100 ==0:
+			if epoch % 500 ==0:
 				
 				with torch.no_grad():
 					generator_net.eval()
