@@ -75,20 +75,22 @@ optional arguments:
 
 Sample Results
 ----------------------------
-Sample from DIV2K validation set
-![sample1_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample1_lr.png "Bicubic")
-![sample1_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample1_sr.png "SRGAN")
+Sample from DIV2K validation set\
 
-Sample from the xView dataset
-![sample2_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample2_lr.png "Bicubic")
-![sample2_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample2_sr.png "SRGAN")
+![sample1_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample1_lr.png "Bicubic")\
+![sample1_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample1_sr.png "SRGAN")\
 
-![sample3_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_lr.png "Bicubic")
-![sample3_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_sr.png "SRGAN")
+Sample from the xView dataset\
 
-Test image
-![nya_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_lr.png "Low Resolution")
-![nya_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_sr.png "SRGAN")
+![sample2_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample2_lr.png "Bicubic")\
+![sample2_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample2_sr.png "SRGAN")\
+
+![sample3_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_lr.png "Bicubic")\
+![sample3_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_sr.png "SRGAN")\
+
+Test image\
+![nya_lr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_lr.png "Low Resolution")\
+![nya_sr](https://github.com/Maggiking/SRGAN-PyTorch/tree/master/images/sample3_sr.png "SRGAN")\
 
 
 
