@@ -112,8 +112,8 @@ Sample Results
 
 
 ### Test image   
-<img src="https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_lr.png" width="1000">
-<img src="https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_sr.png" width="1000">
+<img src="https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_lr.png" width="500">
+<img src="https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_sr.png" width="500">
 
 <!-- ![nya_lr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_lr.png "Low Resolution") {:height="50%" width="50%"} -->
 <!-- ![nya_sr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_sr.png "SRGAN") {:height="50%" width="50%"} -->
