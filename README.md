@@ -114,10 +114,10 @@ Sample Results
 ### Test image   
 
 #### Low Res
-![nya_lr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/sample3_lr.png "Low Resolution")   
+![nya_lr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_lr.png "Low Resolution")   
 
 #### SRGAN
-![nya_sr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/sample3_sr.png "SRGAN")   
+![nya_sr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/nya_sr.png "SRGAN")   
 
 
 
