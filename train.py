@@ -20,6 +20,12 @@ parser.add_argument('--resume', type=int, default=0, help='continues from epoch 
 parser.add_argument('--mode', type=str, default='adversarial', choices=['adversarial', 'generator'], help='apply adversarial training')
 parser.add_argument('--pretrain', type=str, default=None, help='load pretrained generator model')
 parser.add_argument('--cuda', action='store_true', help='Using GPU to train')
+parser.add_argument('--out_dir', type=str, default'./', help='The path for checkpoints and outputs')
+
+sr_transform = transforms.Compose([
+	transforms.Normalize((-1,-1,-1),(2,2,2)),
+	transforms.ToPILImage()
+	])
 
 if __name__ == '__main__':
 	opt = parser.parse_args()
@@ -27,11 +33,12 @@ if __name__ == '__main__':
 	generator_lr = 0.0001
 	discriminator_lr = 0.0001
 
-	check_points_dir = './results/check_points'
-	weights_dir = './results/weights'
+	check_points_dir = opt.out_dir + 'check_points/'
+	weights_dir = opt.out_dir + 'weights/'
+	imgout_dir = opt.out_dir + 'output/'
 	os.makedirs(check_points_dir, exist_ok=True)
 	os.makedirs(weights_dir, exist_ok=True)
-
+	os.makedirs(imgout_dir, exist_ok=True)
 	train_set = DIV2K_train_set(opt.trainset_dir, upscale_factor=4, crop_size = 128)
 	valid_set = DIV2K_valid_set(opt.validset_dir, upscale_factor=4)
 	trainloader = DataLoader(dataset=train_set, num_workers=4, batch_size=32, shuffle=True)
@@ -206,12 +213,8 @@ if __name__ == '__main__':
 			generator_losses.append((epoch,generator_running_loss/len(train_set)))
 			discriminator_losses.append((epoch,discriminator_running_loss/len(train_set)))
 			
-
-		
-
-	
  
-			if epoch % 500 ==0:
+			if epoch % 50 ==0:
 				
 				with torch.no_grad():
 					generator_net.eval()
@@ -230,6 +233,11 @@ if __name__ == '__main__':
 						psnr = 10* (torch.log10(1/mse) + np.log10(4))
 						psnr_avg += psnr
 						img_count +=1
+						sr_img = sr_transform(sr_tensor[0].data.cpu())
+						lr_img = lr_img.cpu()
+						sr_img.save(imgout_dir+'sr_' + str(img_count)+'.png')
+						lr_img.save(lr_img+'lr_'+str(img_count)+'.png')
+
 
 					psnr_avg /= img_count
 					PSNR_valid.append((epoch, psnr_avg))
