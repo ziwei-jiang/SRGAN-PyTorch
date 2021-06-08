@@ -9,7 +9,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from model import Generator, Discriminator
 from utils import DIV2K_train_set, DIV2K_valid_set, FeatureExtractor, TV_Loss
-
+import torchvision.transforms as transforms
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--trainset_dir', type=str, default='./data/DIV2K_train_HR/', help='training dataset path')
@@ -20,10 +20,15 @@ parser.add_argument('--resume', type=int, default=0, help='continues from epoch 
 parser.add_argument('--mode', type=str, default='adversarial', choices=['adversarial', 'generator'], help='apply adversarial training')
 parser.add_argument('--pretrain', type=str, default=None, help='load pretrained generator model')
 parser.add_argument('--cuda', action='store_true', help='Using GPU to train')
-parser.add_argument('--out_dir', type=str, default'./', help='The path for checkpoints and outputs')
+parser.add_argument('--out_dir', type=str, default='./', help='The path for checkpoints and outputs')
 
 sr_transform = transforms.Compose([
 	transforms.Normalize((-1,-1,-1),(2,2,2)),
+	transforms.ToPILImage()
+	])
+
+
+lr_transform = transforms.Compose([
 	transforms.ToPILImage()
 	])
 
@@ -214,9 +219,11 @@ if __name__ == '__main__':
 			discriminator_losses.append((epoch,discriminator_running_loss/len(train_set)))
 			
  
-			if epoch % 50 ==0:
+			if epoch % 10 ==0:
 				
 				with torch.no_grad():
+					cur_epoch_dir = imgout_dir+str(epoch)+'/'
+					os.makedirs(cur_epoch_dir, exist_ok=True)
 					generator_net.eval()
 					discriminator_net.eval()
 					valid_bar = tqdm(validloader)
@@ -228,27 +235,27 @@ if __name__ == '__main__':
 						if torch.cuda.is_available():
 							lr_img = lr_img.cuda()
 							hr_img = hr_img.cuda()
-						sr_img = generator_net(lr_img)
-						mse = torch.mean((hr_img-sr_img)**2)
+						sr_tensor = generator_net(lr_img)
+						mse = torch.mean((hr_img-sr_tensor)**2)
 						psnr = 10* (torch.log10(1/mse) + np.log10(4))
 						psnr_avg += psnr
 						img_count +=1
 						sr_img = sr_transform(sr_tensor[0].data.cpu())
-						lr_img = lr_img.cpu()
-						sr_img.save(imgout_dir+'sr_' + str(img_count)+'.png')
-						lr_img.save(lr_img+'lr_'+str(img_count)+'.png')
+						lr_img = lr_transform(lr_img[0].cpu())
+						sr_img.save(cur_epoch_dir+'sr_' + str(img_count)+'.png')
+						lr_img.save(cur_epoch_dir+'lr_'+str(img_count)+'.png')
 
 
 					psnr_avg /= img_count
-					PSNR_valid.append((epoch, psnr_avg))
+					PSNR_valid.append((epoch, psnr_avg.cpu()))
 
 				check_point = {'generator': generator_net.state_dict(), 'generator_optimizer': generator_optimizer.state_dict(),
 				'discriminator': discriminator_net.state_dict(), 'discriminator_optimizer': discriminator_optimizer.state_dict(),
 				'discriminator_losses': discriminator_losses, 'generator_losses': generator_losses ,'PSNR_valid': PSNR_valid}
 				torch.save(check_point, check_points_dir + 'check_point_epoch_%d.pth' % (epoch))	
-				np.savetxt("generator_losses", generator_losses, fmt='%i,%f')
-				np.savetxt("discriminator_losses", discriminator_losses, fmt='%i, %f')
-				np.savetxt("PSNR", PSNR_valid, fmt='%i, %f')
+				np.savetxt(opt.out_dir + "generator_losses", generator_losses, fmt='%i,%f')
+				np.savetxt(opt.out_dir + "discriminator_losses", discriminator_losses, fmt='%i, %f')
+				np.savetxt(opt.out_dir + "PSNR", PSNR_valid, fmt='%i, %f')
 
 
 
