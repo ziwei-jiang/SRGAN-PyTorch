@@ -47,7 +47,7 @@ optional arguments:
 
 ### Testing
 
-Download the [SRGAN weight](https://drive.google.com/file/d/1NIoOCFwMH-D3uSHgeoptsJ8OPoMkf_UN/view?usp=sharing) that was trained with DIV2K dataset.
+Download the [SRGAN weight](https://drive.google.com/file/d/1dsa67sCyM29_Tor124KjP2vVYxO8sXD3/view?usp=sharing) that was trained with DIV2K dataset.
 
 Run the script test_image.py
 
@@ -96,7 +96,7 @@ Sample Results
 ![sample1_sr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/sample1_sr.png "SRGAN")   
 
 
-###Sample from the xView dataset   
+### Sample from the xView dataset   
 
 #### Bicubic
 ![sample2_lr](https://github.com/Maggiking/SRGAN-PyTorch/blob/master/images/sample2_lr.png "Bicubic")   
