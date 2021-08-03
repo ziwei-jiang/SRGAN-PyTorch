@@ -63,6 +63,7 @@ class DIV2K_valid_set(Dataset):
 		sample = Image.open(self.file_names[index])
 		width, height = sample.size
 		crop_size = int(np.min((width, height)))
+		crop_size = crop_size - crop_size % self.upscale_factor
 		hr_transform = transforms.Compose([
 			transforms.CenterCrop(crop_size)
 			])
