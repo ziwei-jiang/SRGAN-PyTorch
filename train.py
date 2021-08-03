@@ -128,34 +128,41 @@ if __name__ == '__main__':
 			generator_losses.append((epoch,generator_running_loss/len(train_set)))
 	
 
-			if epoch % 500 ==0:
-				check_point = {'generator': generator_net.state_dict(), 'generator_optimizer': generator_optimizer.state_dict(),
-								'generator_losses': generator_losses ,'PSNR_valid': PSNR_valid}
+			if epoch % 50 ==0:
+				
 				with torch.no_grad():
+					cur_epoch_dir = imgout_dir+str(epoch)+'/'
+					os.makedirs(cur_epoch_dir, exist_ok=True)
 					generator_net.eval()
-
 					valid_bar = tqdm(validloader)
 					img_count = 0
 					psnr_avg = 0.0
 					psnr = 0.0
 					for hr_img, lr_img in valid_bar:
 						valid_bar.set_description('Img: %i   PSNR: %f' % (img_count ,psnr))
-						if torch.cuda.is_available() and opt.cuda:
+						if torch.cuda.is_available():
 							lr_img = lr_img.cuda()
 							hr_img = hr_img.cuda()
-						sr_img = generator_net(lr_img)
-						mse = torch.mean((hr_img-sr_img)**2)
+						sr_tensor = generator_net(lr_img)
+						mse = torch.mean((hr_img-sr_tensor)**2)
 						psnr = 10* (torch.log10(1/mse) + np.log10(4))
-
 						psnr_avg += psnr
 						img_count +=1
+						sr_img = sr_transform(sr_tensor[0].data.cpu())
+						lr_img = lr_transform(lr_img[0].cpu())
+						sr_img.save(cur_epoch_dir+'sr_' + str(img_count)+'.png')
+						lr_img.save(cur_epoch_dir+'lr_'+str(img_count)+'.png')
+
 
 					psnr_avg /= img_count
-					PSNR_valid.append((epoch, psnr_avg))
-				
-				torch.save(check_point, check_points_dir+ 'check_point_epoch_%d.pth' % (epoch))
-				np.savetxt("generator_losses", generator_losses, fmt='%i,%f')
-				np.savetxt("PSNR", PSNR_valid, fmt='%i, %f')
+					PSNR_valid.append((epoch, psnr_avg.cpu()))
+
+				check_point = {'generator': generator_net.state_dict(), 'generator_optimizer': generator_optimizer.state_dict(),
+				 'generator_losses': generator_losses ,'PSNR_valid': PSNR_valid}
+				torch.save(check_point, check_points_dir + 'check_point_epoch_%d.pth' % (epoch))	
+				np.savetxt(opt.out_dir + "generator_losses", generator_losses, fmt='%i,%f')
+				np.savetxt(opt.out_dir + "PSNR", PSNR_valid, fmt='%i, %f')
+
 
 
 
@@ -219,7 +226,7 @@ if __name__ == '__main__':
 			discriminator_losses.append((epoch,discriminator_running_loss/len(train_set)))
 			
  
-			if epoch % 10 ==0:
+			if epoch % 50 ==0:
 				
 				with torch.no_grad():
 					cur_epoch_dir = imgout_dir+str(epoch)+'/'
